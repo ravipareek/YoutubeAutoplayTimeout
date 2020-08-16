@@ -1,0 +1,139 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+  <head>
+    
+    <title>Stop Youtube Autoplay Timer</title>
+    <!-- <link rel="stylesheet" href="checkboxes.min.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet">
+    
+    <style type="text/css">
+      body {
+        margin: 10px;
+        white-space: nowrap;
+      }
+
+      h1 {
+        font-size: 20px;
+        margin-bottom:5px;
+        text-align:center;
+        font-family: 'Didact Gothic', sans-serif;
+      }
+      
+      #container {
+        width:102px;
+        margin:auto;
+      }
+      
+      #aboutLink {
+        float:right;
+        margin-top:5px;
+        margin-bottom:5px;
+      }
+      
+      p {
+        text-align: center;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      .switch input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2196F3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+    -->
+    <script src="widget.js"></script>
+  </head>
+
+  <body>
+    <h1>Stop Youtube Autoplay Timer</h1>
+    <div id="container">
+      <div class="countdown">
+        <span id="countdownTime">00:00:00</span>
+      </div>
+      <div>
+        <label for="timer">Set Timer</label>
+        <select name= "timer" id="timer">
+          <option value="">None</option>
+          <option value="1">1 minute</option>
+          <option value="5">5 minute</option>
+          <option value="30">30 minutes</option>
+          <option value="60">1 hour</option>
+          <option value="120">2 hours</option>
+          <option value="180">3 hours</option>
+          <option value="240">4 hours</option>
+        </select>
+      </div>
+      <div>
+        <label class="switch">
+          <input id="disableAutoplayCheckbox" type="checkbox">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+  </body>
+</html>
