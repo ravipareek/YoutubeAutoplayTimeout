@@ -31,19 +31,34 @@ document.addEventListener('DOMContentLoaded', () => {
 	checkbox.addEventListener('click', () => {
 		var checkbox = document.getElementById('disableAutoplayCheckbox');
 		setAutoplaySavedSetting(checkbox.checked);
-        setAutoplay(checkbox.checked, dropdown.value);
+		if (checkbox.checked)
+        	setAutoplay(checkbox.checked, dropdown.value);
+        else{
+        	clearInterval(timeout)
+        	timeout = null;
+        	let duration = dropdown.value != "" ? parseInt(dropdown.value) : 0;
+        	let countdownTime = document.getElementById('countdownTime')
+			if (duration != 0){
+				let timerValue = formatTimeLeft(duration*60)
+				countdownTime.innerText = (timerValue)
+			}
+			else{
+				countdownTime.innerText = "Off"
+			}
+        }
 	});
 	dropdown.addEventListener('change', () => {
 		let checkbox = document.getElementById('disableAutoplayCheckbox');
 		checkbox.checked = false;
-		setAutoplaySavedSetting(checkbox.checked)
-		setAutoplay(false);
 		let duration = dropdown.value != "" ? parseInt(dropdown.value) : 0;
 		setAutoplayTimerSetting(duration)
 		let countdownTime = document.getElementById('countdownTime')
 		if (duration != 0){
 			let timerValue = formatTimeLeft(duration*60)
 			countdownTime.innerText = (timerValue)
+		}
+		else{
+			countdownTime.innerText = "Off"
 		}
 
 	});
@@ -98,6 +113,7 @@ function setAutoplayRunning(endTime){
 
 	if (diff < 0){
 		clearInterval(timeout);
+		timeout = null;
 		let checkbox = document.getElementById('disableAutoplayCheckbox');
 		let dropdown = document.getElementById('timer');
 		let duration = dropdown.value != "" ? parseInt(dropdown.value) : 0;
@@ -111,9 +127,9 @@ function setAutoplayRunning(endTime){
 		console.log("Setting autoplay to off at " + endTime);
 
 		// copied
-		var script = 'var wantDisabled='+true+'; var autoplayButton = document.getElementById("toggle");if(($("#toggle").attr("checked")==\'checked\' && wantDisabled)||($("#toggle").attr("checked")!=\'checked\' && !wantDisabled)){autoplayButton.click();console.log($("#toggle").attr("checked"));}';
+		var script = 'var wantDisabled='+true+'; var autoplayButton = document.getElementById("toggle");if(($("#toggle").attributes.checked != null && wantDisabled)||($("#toggle").attributes.checked != null && !wantDisabled)){autoplayButton.click();console.log($("#toggle").attributes.checked);}';
 
-		script += 'var wantDisabled='+true+'; var autoplayButton = document.getElementById("improved-toggle");if(($("#improved-toggle").attr("checked")==\'checked\' && wantDisabled)||($("#improved-toggle").attr("checked")!=\'checked\' && !wantDisabled)){autoplayButton.click();console.log($("#improved-toggle").attr("checked"));}';
+		script += 'var wantDisabled='+true+'; var autoplayButton = document.getElementById("improved-toggle");if(($("#toggle").attributes.checked != null && wantDisabled)||($("#toggle").attributes.checked != null && !wantDisabled)){autoplayButton.click();console.log($("#improved-toggle").attr("checked"));}';
 
 		chrome.tabs.executeScript(null, { file: "jquery-3.2.1.min.js" }, function() {
 			chrome.tabs.executeScript({
